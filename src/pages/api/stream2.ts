@@ -36,7 +36,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     });*/
 
     // Example: Emit data every second
- /*   const intervalId = setInterval(() => {
+    const intervalId = setInterval(() => {
         res.write(`data: ${new Date().toISOString()}\n\n`);
 
         // Flush the data immediately to the client.
@@ -49,8 +49,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     // When the client closes the connection, stop the interval.
     req.on('close', () => {
         clearInterval(intervalId);
-    });*/
-    const contentStream = service.chat(user, body);
+    });
+    /*const contentStream = service.chat(user, body);
 
     // 将 Readable 流连接到响应对象
     contentStream.pipe(res);
@@ -64,5 +64,5 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
         console.error(err);
         res.statusCode = 500;
         res.end(`Error: ${err.message}`);
-    });
+    });*/
 };
