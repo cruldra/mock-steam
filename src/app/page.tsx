@@ -1,95 +1,76 @@
+"use client"
 import Image from "next/image";
 import styles from "./page.module.css";
+import axios from "axios";
+import {useEffect, useState} from "react";
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    const [dataByAxios, setDataByAxios] = useState('dataByAxios: ')
+    const [dataByFetch, setDataByFetch] = useState('dataByFetch: ')
+    const byAxios = () => {
+        //废了,到现在还不支持 https://github.com/axios/axios/issues/479
+        // https://github.com/axios/axios/issues/1474#issuecomment-578406887
+
+        axios({
+            method: 'get',
+            url: '/api/stream2',
+            responseType: 'stream'
+        })
+            .then(response => {
+                console.log(response.data)
+                /*console.log(response.data.pipe)*/
+// setData(response.data)
+                /*  response.data.on('data', (chunk: string) => {
+                      // 处理流数据的逻辑
+  setData(chunk)
+                  });
+
+                  response.data.on('end', () => {
+                      // 数据接收完成的逻辑
+                  });*/
+
+
+            });
+    }
+
+    const byFetch = () => {
+        // 假设你的流式 API 端点是 "/api/stream"
+        fetch('/api/stream2')
+            .then(response => {
+                // response.body 是一个 ReadableStream
+                const reader = response.body!!.getReader();
+
+                // 读取流中的数据
+                let decoder = new TextDecoder(); // 用于将流中的字节解码成字符串
+                reader.read().then(function processText({done, value}) {
+                    if (done) {
+                        // 流已经结束
+                        console.log('Stream complete');
+                        return;
+                    }
+
+                    // 将 Uint8Array 缓冲区转换为文本
+                    let str = decoder.decode(value, {stream: true});
+                    console.log(str);
+
+                    // 读取下一个数据块
+                    return reader.read().then(processText);
+                });
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+    }
+    return (
+        <div style={{display: "flex",flexDirection:"column",rowGap:"20px", justifyContent: "center", alignItems: "center" , height:"500px"}}>
+            <p>
+                <button onClick={byAxios}>使用axios</button>
+                {dataByAxios}
+            </p>
+            <p>
+                <button onClick={byFetch}>使用fetch</button>
+                {dataByFetch}
+            </p>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+    );
 }
