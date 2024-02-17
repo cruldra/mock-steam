@@ -42,7 +42,7 @@ export default function Home() {
 
                 // 读取流中的数据
                 let decoder = new TextDecoder(); // 用于将流中的字节解码成字符串
-                reader.read().then(function processText({done, value}) {
+                reader.read().then(function processText({done, value}):any {
                     if (done) {
                         // 流已经结束
                         console.log('Stream complete');
