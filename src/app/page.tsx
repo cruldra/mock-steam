@@ -35,7 +35,7 @@ export default function Home() {
 
     const byFetch = () => {
         // 假设你的流式 API 端点是 "/api/stream"
-        fetch('/api/stream2')
+        fetch('/api/stream4')
             .then(response => {
                 // response.body 是一个 ReadableStream
                 const reader = response.body!!.getReader();
