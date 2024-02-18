@@ -22,7 +22,9 @@ const service = {
         return contentStream;
     },
 };
-
+export const config = {
+    supportsResponseStreaming: true,
+};
 export default (req: NextApiRequest, res: NextApiResponse) => {
     // 假设 user 和 body 通过某种方式从 req 中获取
     const user = {}; // 获取用户信息
