@@ -1,3 +1,6 @@
+export const runtime = 'edge'; // or 'nodejs' which uses Serverless Functions
+export const dynamic = 'force-dynamic'; // always run dynamically
+
 // https://developer.mozilla.org/docs/Web/API/ReadableStream#convert_async_iterator_to_stream
 function iteratorToStream(iterator: any) {
     return new ReadableStream({
@@ -35,6 +38,3 @@ export async function GET() {
 
     return new Response(stream)
 }
-export const config = {
-    supportsResponseStreaming: true,
-};
