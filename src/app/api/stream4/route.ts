@@ -1,3 +1,4 @@
+//https://vercel.com/docs/functions/streaming/quickstart
 export const runtime = 'edge'; // or 'nodejs' which uses Serverless Functions
 export const dynamic = 'force-dynamic'; // always run dynamically
 
