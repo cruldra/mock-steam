@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@dongjak-extensions/http-client':
+    specifier: ^3.5.0
+    version: 3.5.0(axios@1.6.7)(luch-request@3.1.1)
   axios:
     specifier: ^1.6.7
     version: 1.6.7
@@ -33,6 +36,21 @@ devDependencies:
     version: 5.3.3
 
 packages:
+
+  /@dcloudio/types@2.6.12:
+    resolution: {integrity: sha512-mrCMwcINy1IFjU9VUqLeWBkj404yWs5paLDttBcA+eqUjanuUQbBcTVPqlrGgkyzLXDcV2oDDZRSNxNpXi4kMQ==}
+    dev: false
+
+  /@dongjak-extensions/http-client@3.5.0(axios@1.6.7)(luch-request@3.1.1):
+    resolution: {integrity: sha512-Byp6GwA8VbTaO46iNsQVhn64Q6LNps9a/qx6W5jRZBFhQuyYzLTpUl4gCgRQZlzMttHdC99eMQ+Hxq4Bot+/AA==}
+    peerDependencies:
+      axios: ^1.6.2
+      luch-request: ^3.1.1
+    dependencies:
+      axios: 1.6.7
+      luch-request: 3.1.1
+      reflect-metadata: 0.1.14
+    dev: false
 
   /@next/env@14.1.0:
     resolution: {integrity: sha512-Py8zIo+02ht82brwwhTg36iogzFqGLPXlRGKQw5s+qP/kMNc4MAyDeEwBKDijk6zTIbegEgu8Qy7C1LboslQAw==}
@@ -232,6 +250,12 @@ packages:
       js-tokens: 4.0.0
     dev: false
 
+  /luch-request@3.1.1:
+    resolution: {integrity: sha512-p7+mlcEtgRcd0OfXC4XZbyiwSr1XgCeqNT7LlVUjnk7InYl/8d5Rk7BUqAYNA2WRafI1wRIUQWRWZRpeUwWR0w==}
+    dependencies:
+      '@dcloudio/types': 2.6.12
+    dev: false
+
   /mime-db@1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
@@ -321,6 +345,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
+    dev: false
+
+  /reflect-metadata@0.1.14:
+    resolution: {integrity: sha512-ZhYeb6nRaXCfhnndflDK8qI6ZQ/YcWZCISRAWICW9XYqMUwjZM9Z0DveWX/ABN01oxSHwVxKQmxeYZSsm0jh5A==}
     dev: false
 
   /scheduler@0.23.0:

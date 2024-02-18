@@ -3,7 +3,10 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import axios from "axios";
 import {useEffect, useState} from "react";
-
+import {fetchAdapter, MixResponse} from "@dongjak-extensions/http-client";
+// import fetchAdapter, {MixResponse} from "@/axios";
+// import fetchAdapter from "@shiroyasha9/axios-fetch-adapter";
+// import fetchAdapter from "@liuqiang1357/axios-fetch-adapter";
 export default function Home() {
     const [dataByAxios, setDataByAxios] = useState('dataByAxios: ')
     const [dataByFetch, setDataByFetch] = useState('dataByFetch: ')
@@ -13,11 +16,13 @@ export default function Home() {
 
         axios({
             method: 'get',
-            url: '/api/stream2',
-            responseType: 'stream'
+            url: '/api/stream4',
+            responseType: 'stream',
+            adapter:fetchAdapter,
         })
             .then(response => {
-                console.log(response.data)
+              const  res =   response  as any as MixResponse
+                // console.log(res.data)
                 /*console.log(response.data.pipe)*/
 // setData(response.data)
                 /*  response.data.on('data', (chunk: string) => {
@@ -28,7 +33,24 @@ export default function Home() {
                   response.data.on('end', () => {
                       // 数据接收完成的逻辑
                   });*/
+                const reader = res.body ?.getReader();
 
+                // 读取流中的数据
+                let decoder = new TextDecoder(); // 用于将流中的字节解码成字符串
+                reader?.read().then(function processText({done, value}): any {
+                    if (done) {
+                        // 流已经结束
+                        console.log('Stream complete');
+                        return;
+                    }
+
+                    // 将 Uint8Array 缓冲区转换为文本
+                    let str = decoder.decode(value, {stream: true});
+                    console.log(str);
+                    setDataByAxios((prevDataByFetch) => prevDataByFetch + str)
+                    // 读取下一个数据块
+                    return reader.read().then(processText);
+                });
 
             });
     }
@@ -52,7 +74,7 @@ export default function Home() {
                     // 将 Uint8Array 缓冲区转换为文本
                     let str = decoder.decode(value, {stream: true});
                     console.log(str);
-
+                    setDataByFetch((prevDataByFetch) => prevDataByFetch + str)
                     // 读取下一个数据块
                     return reader.read().then(processText);
                 });
